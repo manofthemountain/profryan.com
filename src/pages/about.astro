@@ -1,79 +1,91 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "About This Blog";
+const description =
+  "A practical cybersecurity blog focused on systems, networks, and real-world defense.";
 ---
 
-<Layout
-	title="About This Blog"
-	description="A practical cybersecurity blog focused on systems, networks, and real-world defense."
-	pubDate={new Date('January 29 2026')}
-	heroImage={AboutHeroImage}
->
-    <p>
-      This blog is a place to think clearly about cybersecurity without marketing
-      noise, tool hype, or academic abstraction for its own sake.
-    </p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>About This Blog</h1>
 
-    <p>
-      Cybersecurity is ultimately about <strong>systems behaving under stress</strong>—
-      technical systems, organizational systems, and human systems. This site
-      exists to explore how those systems fail, how they’re defended, and how
-      they can be designed to fail more gracefully.
-    </p>
+      <p>
+        This blog is a place to think clearly about cybersecurity without marketing
+        noise, tool hype, or academic abstraction for its own sake.
+      </p>
 
-    <h2>Perspective</h2>
+      <p>
+        Cybersecurity is ultimately about <strong>systems behaving under stress</strong> —
+        technical systems, organizational systems, and human systems. This site
+        exists to explore how those systems fail, how they’re defended, and how
+        they can be designed to fail more gracefully.
+      </p>
 
-    <p>
-      My background spans both hands-on operations and formal cybersecurity
-      education. That combination shapes how topics are approached here:
-    </p>
+      <h2>Perspective</h2>
 
-    <ul>
-      <li>Security controls are evaluated based on behavior and outcomes</li>
-      <li>Architecture matters more than individual tools</li>
-      <li>Visibility, logging, and response capability matter as much as prevention</li>
-      <li>Tradeoffs are discussed explicitly—performance, usability, cost, and risk</li>
-    </ul>
+      <p>
+        My background spans both hands-on operations and formal cybersecurity
+        education. That combination shapes how topics are approached here:
+      </p>
 
-    <h2>What you’ll find here</h2>
+      <ul>
+        <li>Security controls are evaluated based on behavior and outcomes</li>
+        <li>Architecture matters more than individual tools</li>
+        <li>Visibility, logging, and response capability matter as much as prevention</li>
+        <li>Tradeoffs are discussed explicitly — performance, usability, cost, and risk</li>
+      </ul>
 
-    <ul>
-      <li>Network and system security fundamentals</li>
-      <li>Defense-in-depth and Zero Trust in practice</li>
-      <li>Monitoring and logging strategies</li>
-      <li>Security architecture decisions</li>
-      <li>Teaching notes drawn from real coursework and labs</li>
-    </ul>
+      <h2>What you’ll find here</h2>
 
-    <h2>What this blog is not</h2>
+      <ul>
+        <li>Network and system security fundamentals</li>
+        <li>Defense-in-depth and Zero Trust in practice</li>
+        <li>Monitoring and logging strategies</li>
+        <li>Security architecture decisions</li>
+        <li>Teaching notes drawn from real coursework and labs</li>
+      </ul>
 
-    <ul>
-      <li>A vendor blog</li>
-      <li>A news feed</li>
-      <li>A certification cram site</li>
-      <li>Security theater</li>
-    </ul>
+      <h2>What this blog is not</h2>
 
-    <h2>Updating and accuracy</h2>
+      <ul>
+        <li>A vendor blog</li>
+        <li>A news feed</li>
+        <li>A certification cram site</li>
+        <li>Security theater</li>
+      </ul>
 
-    <p>
-      Posts may be updated over time to reflect changes in standards, attack
-      techniques, or improved explanations. When substantial updates are made,
-      the post date will reflect that.
-    </p>
+      <h2>Updating and accuracy</h2>
 
-    <h2>Intended audience</h2>
+      <p>
+        Posts may be updated over time to reflect changes in standards, attack
+        techniques, or improved explanations. When substantial updates are made,
+        the post date will reflect that.
+      </p>
 
-    <p>
-      This blog is written for students, practitioners, and technical leaders who
-      prefer understanding systems over memorizing tools.
-    </p>
+      <h2>Intended audience</h2>
 
-    <h2>About the site</h2>
+      <p>
+        This blog is written for students, practitioners, and technical leaders who
+        prefer understanding systems over memorizing tools.
+      </p>
 
-    <p>
-      This site is intentionally simple: static content, no CMS, minimal tracking,
-      and a small attack surface. The goal is durability, clarity, and signal over
-      noise.
-    </p>
-</Layout>
+      <h2>About the site</h2>
+
+      <p>
+        This site is intentionally simple: static content, no CMS, minimal tracking,
+        and a small attack surface. The goal is durability, clarity, and signal over
+        noise.
+      </p>
+    </main>
+    <Footer />
+  </body>
+</html>
