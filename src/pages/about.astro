@@ -1,15 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-
-const title = "About This Blog";
-const description =
-  "A practical cybersecurity blog focused on systems, networks, and real-world defense.";
+import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import Layout from '../layouts/BlogPost.astro';
 ---
 
-<BaseLayout title={title} description={description}>
-  <article>
-    <h1>About This Blog</h1>
-
+<Layout
+	title="About This Blog"
+	description="A practical cybersecurity blog focused on systems, networks, and real-world defense."
+	pubDate={new Date('January 29 2026')}
+	heroImage={AboutHeroImage}
+>
     <p>
       This blog is a place to think clearly about cybersecurity without marketing
       noise, tool hype, or academic abstraction for its own sake.
@@ -77,5 +76,4 @@ const description =
       and a small attack surface. The goal is durability, clarity, and signal over
       noise.
     </p>
-  </article>
-</BaseLayout>
+</Layout>
