@@ -1,0 +1,56 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "Resources";
+const description =
+  "Selected cybersecurity resources, references, and reading lists used throughout this site.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>Resources</h1>
+
+      <p>
+        This page collects references and materials that come up repeatedly in posts
+        across this site. The emphasis is on sources that are stable, practical, and
+        useful for understanding systems and security tradeoffs.
+      </p>
+
+      <h2>Standards &amp; guidance</h2>
+      <ul>
+        <li>NIST SP 800-series (network security, remote access, logging)</li>
+        <li>RFCs related to TCP/IP, TLS, DNS, and routing behavior</li>
+        <li>Vendor-neutral hardening guides</li>
+      </ul>
+
+      <h2>Core topics</h2>
+      <ul>
+        <li>Firewalls and network segmentation</li>
+        <li>Remote access and VPN architecture</li>
+        <li>Defense-in-depth and Zero Trust</li>
+        <li>Logging, monitoring, and detection</li>
+      </ul>
+
+      <h2>For students</h2>
+      <ul>
+        <li>Clear explanations over tool-specific walkthroughs</li>
+        <li>Examples you can reuse in labs or design reviews</li>
+        <li>References that age well</li>
+      </ul>
+
+      <p>
+        This page will evolve over time as new posts are published and older material
+        is updated.
+      </p>
+    </main>
+    <Footer />
+  </body>
+</html>
