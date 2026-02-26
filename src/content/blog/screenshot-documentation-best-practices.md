@@ -1,8 +1,8 @@
 ---
-title: "Screenshots Are Not Evidence — Until You Document Them"
-description: "Professional standards for documenting screenshots in cybersecurity labs, investigations, and technical reporting."
+title: 'Screenshots Are Not Evidence — Until You Document Them'
+description: 'Professional standards for documenting screenshots in cybersecurity labs, investigations, and technical reporting.'
 pubDate: '2026-02-26'
-heroImage: "/images/firewall-screenshot.png"
+heroImage:  '../../assets/firewall-screenshot.png'
 ---
 
 In cybersecurity, screenshots are often submitted as proof.
