@@ -1,147 +1,533 @@
 ---
 import { SITE_TITLE } from '../consts';
-import HeaderLink from './HeaderLink.astro';
 
 const GITHUB_URL = 'https://github.com/manofthemountain';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/cyberintelpro/';
 const EMAIL_URL = 'mailto:ryan.schelske@faculty.umgc.edu';
+
+const currentPath = Astro.url.pathname;
+
+const isActiveExact = (path: string) => currentPath === path;
+const isActivePrefix = (prefix: string) => currentPath === prefix || currentPath.startsWith(prefix + '/');
 ---
 
-<header>
-	<nav>
+<header id="site-header" class="site-header">
+	<!-- Reading progress bar -->
+	<div class="progress" aria-hidden="true">
+		<div class="progress__bar" id="reading-progress"></div>
+	</div>
+
+	<nav class="nav" aria-label="Primary navigation">
 		<div class="brand">
-			<h2><a href="/">{SITE_TITLE}</a></h2>
+			<h2 class="brand__title">
+				<a class="brand__link" href="/" aria-label="Homepage">
+					{SITE_TITLE}
+				</a>
+			</h2>
 			<p class="tagline">Practical cybersecurity, explained clearly.</p>
 		</div>
 
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-			<HeaderLink href="/resources">Resources</HeaderLink>
+		<!-- Right-side controls (always visible) -->
+		<div class="controls">
+			<!-- Dark mode toggle -->
+			<button
+				type="button"
+				class="icon-btn"
+				id="theme-toggle"
+				aria-label="Toggle dark mode"
+				title="Toggle theme"
+			>
+				<!-- sun/moon via CSS (no dependency) -->
+				<span class="theme-icon" aria-hidden="true"></span>
+			</button>
+
+			<!-- Mobile hamburger -->
+			<button
+				type="button"
+				class="icon-btn hamburger"
+				id="menu-toggle"
+				aria-label="Open menu"
+				aria-controls="site-menu"
+				aria-expanded="false"
+			>
+				<span class="hamburger__lines" aria-hidden="true"></span>
+			</button>
 		</div>
 
-		<div class="social-links" aria-label="External links">
-			<a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-				<span class="sr-only">GitHub</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="28" height="28">
-					<path
-						fill="currentColor"
-						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
-						0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
-						-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87
-						2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
-						0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21
-						2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27
-						1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
-						.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95
-						.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2
-						0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-					/>
-				</svg>
-			</a>
+		<!-- Collapsible menu area -->
+		<div class="menu" id="site-menu">
+			<div class="internal-links">
+				<a href="/" class:list={['nav-link', { active: isActiveExact('/') }]} >Home</a>
+				<a href="/blog" class:list={['nav-link', { active: isActivePrefix('/blog') }]} >Blog</a>
+				<a href="/about" class:list={['nav-link', { active: isActiveExact('/about') }]} >About</a>
+				<a href="/resources" class:list={['nav-link', { active: isActiveExact('/resources') }]} >Resources</a>
+			</div>
 
-			<a href={LINKEDIN_URL} target="_blank" rel="me noopener noreferrer">
-				<span class="sr-only">LinkedIn</span>
-				<svg viewBox="0 0 24 24" aria-hidden="true" width="28" height="28">
-					<path
-						fill="currentColor"
-						d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037
-						-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046
-						c.476-.9 1.637-1.85 3.367-1.85 3.6 0 4.269 2.37 4.269 5.455v6.286z
-						M5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125z
-						M6.114 20.452H4.56V9h1.554v11.452z"
-					/>
-				</svg>
-			</a>
+			<div class="social-links" aria-label="External links">
+				<a class="social-link" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+					<span class="sr-only">GitHub</span>
+					<svg viewBox="0 0 16 16" aria-hidden="true">
+						<path
+							fill="currentColor"
+							d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+							0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+							-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87
+							2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
+							0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21
+							2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27
+							1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+							.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95
+							.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2
+							0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+						/>
+					</svg>
+				</a>
 
-			<a href={EMAIL_URL}>
-				<span class="sr-only">Email</span>
-				<svg viewBox="0 0 24 24" aria-hidden="true" width="28" height="28">
-					<path
-						fill="currentColor"
-						d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16
-						c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8
-						5 8-5v2z"
-					/>
-				</svg>
-			</a>
+				<a class="social-link" href={LINKEDIN_URL} target="_blank" rel="me noopener noreferrer">
+					<span class="sr-only">LinkedIn</span>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path
+							fill="currentColor"
+							d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037
+							-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046
+							c.476-.9 1.637-1.85 3.367-1.85 3.6 0 4.269 2.37 4.269 5.455v6.286z
+							M5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125z
+							M6.114 20.452H4.56V9h1.554v11.452z"
+						/>
+					</svg>
+				</a>
+
+				<a class="social-link" href={EMAIL_URL}>
+					<span class="sr-only">Email</span>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path
+							fill="currentColor"
+							d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16
+							c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8
+							5 8-5v2z"
+						/>
+					</svg>
+				</a>
+			</div>
 		</div>
 	</nav>
 </header>
 
-<style>
-	header {
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
+<script>
+	// ---------- Header shadow on scroll ----------
+	const header = document.getElementById('site-header');
+	const setHeaderShadow = () => {
+		if (!header) return;
+		header.classList.toggle('scrolled', window.scrollY > 10);
+	};
 
-	nav {
-		display: flex;
-		align-items: center;
+	// ---------- Reading progress ----------
+	const progressBar = document.getElementById('reading-progress');
+	const setProgress = () => {
+		if (!progressBar) return;
+		const doc = document.documentElement;
+		const scrollTop = window.scrollY || doc.scrollTop;
+		const scrollHeight = doc.scrollHeight - window.innerHeight;
+		const progress = scrollHeight > 0 ? Math.min(1, Math.max(0, scrollTop / scrollHeight)) : 0;
+		progressBar.style.width = (progress * 100).toFixed(2) + '%';
+	};
+
+	// ---------- Mobile menu ----------
+	const menuBtn = document.getElementById('menu-toggle');
+	const menu = document.getElementById('site-menu');
+
+	const closeMenu = () => {
+		if (!menuBtn || !menu) return;
+		menuBtn.setAttribute('aria-expanded', 'false');
+		menuBtn.setAttribute('aria-label', 'Open menu');
+		menu.classList.remove('open');
+	};
+
+	const toggleMenu = () => {
+		if (!menuBtn || !menu) return;
+		const isOpen = menu.classList.toggle('open');
+		menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+		menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+	};
+
+	menuBtn?.addEventListener('click', toggleMenu);
+
+	// Close menu on route click (mobile)
+	menu?.addEventListener('click', (e) => {
+		const target = e.target;
+		if (target && target.tagName === 'A') closeMenu();
+	});
+
+	// Close on Escape
+	window.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') closeMenu();
+	});
+
+	// Close if resizing up to desktop
+	window.addEventListener('resize', () => {
+		if (window.innerWidth >= 820) closeMenu();
+	});
+
+	// ---------- Theme toggle ----------
+	const themeBtn = document.getElementById('theme-toggle');
+
+	const applyTheme = (theme) => {
+		// theme is 'light' | 'dark'
+		document.documentElement.dataset.theme = theme;
+		try { localStorage.setItem('theme', theme); } catch {}
+	};
+
+	const getPreferredTheme = () => {
+		try {
+			const stored = localStorage.getItem('theme');
+			if (stored === 'light' || stored === 'dark') return stored;
+		} catch {}
+		return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	};
+
+	const syncTheme = () => applyTheme(getPreferredTheme());
+
+	themeBtn?.addEventListener('click', () => {
+		const current = document.documentElement.dataset.theme || getPreferredTheme();
+		applyTheme(current === 'dark' ? 'light' : 'dark');
+	});
+
+	// If system preference changes and user didn't explicitly set a theme,
+	// this will reflect it. (If they did set it, localStorage wins.)
+	const media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+	media?.addEventListener?.('change', () => {
+		try {
+			const stored = localStorage.getItem('theme');
+			if (stored !== 'light' && stored !== 'dark') syncTheme();
+		} catch {
+			syncTheme();
+		}
+	});
+
+	// ---------- Init ----------
+	syncTheme();
+	setHeaderShadow();
+	setProgress();
+
+	window.addEventListener('scroll', () => {
+		setHeaderShadow();
+		setProgress();
+	}, { passive: true });
+</script>
+
+<style>
+/* --- Optional: define dark-mode variables here if you haven't added them globally --- */
+:global(html[data-theme="dark"]) {
+	--bg: 12, 14, 18;
+	--surface: 18, 21, 28;
+	--surface-2: 22, 26, 34;
+
+	--text: 226, 232, 240;
+	--text-strong: 245, 247, 250;
+	--text-muted: 165, 176, 196;
+
+	--border: 44, 52, 68;
+
+	/* keep accent, but you can tune it if desired */
+	/* --accent: #7aa2ff; */
+}
+
+/* ----- Header frame ----- */
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+
+	background: rgba(var(--bg, 255, 255, 255), 0.82);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+
+	border-bottom: 1px solid rgba(var(--border, 220, 226, 238), 1);
+	transition: box-shadow 200ms ease, background 200ms ease;
+}
+
+.site-header.scrolled {
+	box-shadow: 0 10px 30px rgba(15, 18, 25, 0.10);
+}
+
+/* ----- Progress bar ----- */
+.progress {
+	height: 3px;
+	width: 100%;
+	background: rgba(var(--border, 220, 226, 238), 0.6);
+}
+.progress__bar {
+	height: 100%;
+	width: 0%;
+	background: var(--accent);
+	transition: width 80ms linear;
+}
+
+/* ----- Layout ----- */
+.nav {
+	max-width: var(--content-max, 760px);
+	margin: 0 auto;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+
+	padding: 0.75rem 1rem;
+}
+
+/* Brand */
+.brand {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	min-width: max-content;
+}
+
+.brand__title {
+	margin: 0;
+	font-size: 1rem;
+	letter-spacing: -0.01em;
+	line-height: 1.1;
+}
+
+.brand__link {
+	text-decoration: none;
+	color: rgb(var(--text-strong, 15, 18, 25));
+	padding: 0.3rem 0.5rem;
+	border-radius: 10px;
+	margin-left: -0.5rem;
+}
+
+.brand__link:hover {
+	background: rgba(var(--gray-light, 229, 233, 240), 0.35);
+}
+
+.tagline {
+	margin: 0;
+	font-size: 0.9rem;
+	color: rgba(var(--text-muted, 72, 86, 120), 1);
+}
+
+/* Controls (theme + hamburger) */
+.controls {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.icon-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 42px;
+	height: 42px;
+	border-radius: 12px;
+
+	border: 1px solid rgba(var(--border, 220, 226, 238), 1);
+	background: rgba(var(--surface-2, 246, 248, 252), 0.65);
+	color: rgba(var(--text, 34, 41, 57), 1);
+
+	cursor: pointer;
+	transition: background 140ms ease, transform 140ms ease, border-color 140ms ease;
+}
+
+.icon-btn:hover {
+	background: rgba(var(--gray-light, 229, 233, 240), 0.45);
+}
+
+.icon-btn:active {
+	transform: translateY(1px);
+}
+
+.icon-btn:focus-visible {
+	outline: 3px solid rgba(35, 55, 255, 0.25);
+	outline-offset: 2px;
+}
+
+/* Theme icon: a simple sun/moon morph using box-shadow + border */
+.theme-icon {
+	width: 18px;
+	height: 18px;
+	border-radius: 999px;
+	border: 2px solid currentColor;
+	position: relative;
+	display: inline-block;
+}
+
+/* In dark mode, make it look like a moon (cutout) */
+:global(html[data-theme="dark"]) .theme-icon {
+	border-color: currentColor;
+	box-shadow: inset -6px -6px 0 0 rgba(var(--bg, 12, 14, 18), 1);
+}
+
+/* Hamburger icon */
+.hamburger__lines {
+	width: 18px;
+	height: 12px;
+	position: relative;
+	display: inline-block;
+}
+
+.hamburger__lines::before,
+.hamburger__lines::after,
+.hamburger__lines {
+	background: transparent;
+}
+
+.hamburger__lines::before,
+.hamburger__lines::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 2px;
+	border-radius: 999px;
+	background: currentColor;
+	transition: transform 160ms ease, top 160ms ease, bottom 160ms ease, opacity 160ms ease;
+}
+
+.hamburger__lines::before { top: 1px; }
+.hamburger__lines::after { bottom: 1px; }
+
+/* Menu container */
+.menu {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+
+/* Internal nav: pill group */
+.internal-links {
+	display: flex;
+	gap: 0.35rem;
+
+	padding: 0.25rem;
+	border-radius: 999px;
+	background: rgba(var(--surface-2, 246, 248, 252), 0.75);
+	border: 1px solid rgba(var(--border, 220, 226, 238), 1);
+}
+
+.nav-link {
+	padding: 0.5rem 0.9rem;
+	border-radius: 999px;
+	text-decoration: none;
+	color: rgba(var(--text, 34, 41, 57), 1);
+	border: 1px solid transparent;
+	transition: background 140ms ease, transform 140ms ease, border-color 140ms ease;
+}
+
+.nav-link:hover {
+	background: rgba(var(--gray-light, 229, 233, 240), 0.35);
+	border-color: rgba(var(--border, 220, 226, 238), 1);
+}
+
+.nav-link.active {
+	background: rgba(35, 55, 255, 0.12);
+	border-color: rgba(35, 55, 255, 0.25);
+	color: rgb(var(--text-strong, 15, 18, 25));
+}
+
+.nav-link:active {
+	transform: translateY(1px);
+}
+
+/* Social */
+.social-links {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.social-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 42px;
+	height: 42px;
+	border-radius: 12px;
+
+	color: rgba(var(--text, 34, 41, 57), 1);
+	border: 1px solid rgba(var(--border, 220, 226, 238), 0.0);
+	background: transparent;
+
+	transition: background 140ms ease, transform 140ms ease, border-color 140ms ease;
+}
+
+.social-link:hover {
+	background: rgba(var(--gray-light, 229, 233, 240), 0.35);
+	border-color: rgba(var(--border, 220, 226, 238), 1);
+}
+
+.social-link:active {
+	transform: translateY(1px);
+}
+
+.social-link svg {
+	width: 20px;
+	height: 20px;
+}
+
+/* Responsive: stack menu, show hamburger */
+@media (max-width: 900px) {
+	.tagline { display: none; }
+}
+
+/* Mobile behavior */
+@media (max-width: 820px) {
+	.nav {
+		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: 1rem;
 	}
 
 	.brand {
-		display: flex;
+		flex: 1 1 auto;
+	}
+
+	/* Hamburger visible only on mobile */
+	.hamburger { display: inline-flex; }
+
+	/* Menu collapses */
+	.menu {
+		width: 100%;
 		flex-direction: column;
-		gap: 0.15rem;
+		align-items: stretch;
+		gap: 0.75rem;
+
+		max-height: 0;
+		overflow: hidden;
+		opacity: 0;
+		transform: translateY(-4px);
+
+		transition: max-height 220ms ease, opacity 180ms ease, transform 180ms ease;
 	}
 
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
-
-	.tagline {
-		margin: 0;
-		font-size: 0.85em;
-		opacity: 0.75;
-	}
-
-	h2 a {
-		text-decoration: none;
-		color: var(--black);
-	}
-
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-
-	nav a.active {
-		border-bottom-color: var(--accent);
+	.menu.open {
+		max-height: 420px;
+		opacity: 1;
+		transform: translateY(0);
 	}
 
 	.internal-links {
-		display: flex;
+		border-radius: 16px;
+		justify-content: center;
 		flex-wrap: wrap;
+	}
+
+	.social-links {
 		justify-content: center;
 	}
+}
 
-	.social-links,
-	.social-links a {
-		display: flex;
-		align-items: center;
+/* Desktop: no hamburger, menu always visible */
+@media (min-width: 821px) {
+	.hamburger { display: none; }
+	.menu {
+		max-height: none !important;
+		opacity: 1 !important;
+		transform: none !important;
 	}
-
-	.social-links a {
-		padding: 0.75em 0.35em;
-	}
-
-	@media (max-width: 900px) {
-		.tagline {
-			display: none;
-		}
-	}
-
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
-		}
-	}
+}
 </style>

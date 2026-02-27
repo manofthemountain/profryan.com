@@ -1,21 +1,103 @@
 /*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+  Polished base styles (Bear Blog-inspired) with improved typography,
+  spacing, links, code, tables, and better responsive behavior.
 
+  Includes:
+  - Dark mode tokens via html[data-theme="dark"]
+  - Sticky-header anchor offset
+  - Reduced motion support
+  - Better focus styles
+  - Premium-ish code/table/blockquote styling
+  - Optional table overflow resilience
+*/
+
+/* ---------------------------------------------
+   Theme tokens
+---------------------------------------------- */
 :root {
+	/* Brand */
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
+
+	/* Core palette (RGB for rgba()) */
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
 	--gray-light: 229, 233, 240;
 	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%), 0 16px 32px
-		rgba(var(--gray), 33%);
+
+	/* Surfaces */
+	--bg: 255, 255, 255;
+	--surface: 250, 251, 253;
+	--surface-2: 246, 248, 252;
+
+	/* Text */
+	--text: var(--gray-dark);
+	--text-strong: var(--black);
+	--text-muted: 72, 86, 120;
+
+	/* Borders / radii */
+	--border: 220, 226, 238;
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 16px;
+
+	/* Layout */
+	--content-max: 760px;
+	--content-pad: 1.25rem;
+	--prose-max: 72ch;
+
+	/* Type scale */
+	--base-font: 18px;
+	--leading: 1.75;
+
+	/* Focus ring */
+	--ring: 35, 55, 255;
+	--ring-alpha: 0.35;
+
+	/* Effects */
+	--shadow-sm: 0 1px 2px rgba(15, 18, 25, 0.06), 0 4px 10px rgba(15, 18, 25, 0.06);
+	--shadow-md: 0 2px 6px rgba(96, 115, 159, 0.18), 0 10px 30px rgba(96, 115, 159, 0.2);
+
+	/* Code surfaces */
+	--code-bg: var(--surface-2);
+	--code-border: var(--border);
+
+	/* Background gradient */
+	--gray-gradient: rgba(var(--gray-light), 55%), rgba(var(--bg), 1);
+
+	/* Global behavior */
+	color-scheme: light;
+	--header-offset: 84px; /* adjust if header height changes */
 }
+
+/* Dark theme driven by html[data-theme="dark"] */
+html[data-theme="dark"] {
+	--bg: 12, 14, 18;
+	--surface: 18, 21, 28;
+	--surface-2: 22, 26, 34;
+
+	--text: 226, 232, 240;
+	--text-strong: 245, 247, 250;
+	--text-muted: 165, 176, 196;
+
+	--border: 44, 52, 68;
+
+	--code-bg: var(--surface-2);
+	--code-border: var(--border);
+
+	color-scheme: dark;
+}
+
+/* If user never toggles a theme, OS preference can win */
+@media (prefers-color-scheme: dark) {
+	html:not([data-theme]) {
+		color-scheme: dark;
+	}
+}
+
+/* ---------------------------------------------
+   Fonts
+---------------------------------------------- */
 @font-face {
 	font-family: "Atkinson";
 	src: url("/fonts/atkinson-regular.woff") format("woff");
@@ -30,112 +112,409 @@
 	font-style: normal;
 	font-display: swap;
 }
+
+/* ---------------------------------------------
+   Resets / base behavior
+---------------------------------------------- */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	text-rendering: optimizeLegibility;
+	-webkit-text-size-adjust: 100%;
+	scroll-behavior: smooth;
+}
+
+/* Avoid smooth scrolling & animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	* {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}
+
 body {
-	font-family: "Atkinson", sans-serif;
+	font-family: "Atkinson", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+		"Apple Color Emoji", "Segoe UI Emoji";
 	margin: 0;
 	padding: 0;
 	text-align: left;
+
 	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
+	background-size: 100% 520px;
+	background-color: rgb(var(--bg));
+
+	color: rgb(var(--text));
+	font-size: var(--base-font);
+	line-height: var(--leading);
+
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+
+	/* Modern niceties (safe fallbacks) */
+	text-wrap: pretty;
+	hyphens: auto;
 }
+
+/* Better selection */
+::selection {
+	background: rgba(35, 55, 255, 0.22);
+}
+html[data-theme="dark"] ::selection {
+	background: rgba(122, 162, 255, 0.25);
+}
+
+/* Anchor jumps shouldn’t hide behind the sticky header */
+:where(h1, h2, h3, h4, h5, h6, [id]) {
+	scroll-margin-top: var(--header-offset);
+}
+
+/* ---------------------------------------------
+   Layout
+---------------------------------------------- */
 main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
+	width: var(--content-max);
+	max-width: calc(100% - (var(--content-pad) * 2));
+	margin: 0 auto;
+	padding: 3.25rem var(--content-pad);
 }
+
+/* Optional: readable width for long-form content */
+.prose {
+	max-width: var(--prose-max);
+}
+
+/* ---------------------------------------------
+   Typography
+---------------------------------------------- */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
+	margin: 0 0 0.65rem 0;
+	color: rgb(var(--text-strong));
+	line-height: 1.18;
+	letter-spacing: -0.01em;
 }
+
 h1 {
-	font-size: 3.052em;
+	font-size: clamp(2.1rem, 3.2vw, 3rem);
+	letter-spacing: -0.02em;
 }
 h2 {
-	font-size: 2.441em;
+	font-size: clamp(1.65rem, 2.4vw, 2.25rem);
 }
 h3 {
-	font-size: 1.953em;
+	font-size: clamp(1.35rem, 1.8vw, 1.75rem);
 }
 h4 {
-	font-size: 1.563em;
+	font-size: 1.25rem;
 }
 h5 {
-	font-size: 1.25em;
+	font-size: 1.1rem;
 }
+h6 {
+	font-size: 1rem;
+	color: rgba(var(--text-muted), 1);
+}
+
+p {
+	margin: 0 0 1.05rem 0;
+}
+
+.prose p {
+	margin: 0 0 1.6rem 0;
+}
+
 strong,
 b {
 	font-weight: 700;
+	color: rgb(var(--text-strong));
 }
+
+ul,
+ol {
+	margin: 0 0 1.2rem 1.2rem;
+	padding: 0;
+}
+li {
+	margin: 0.35rem 0;
+}
+li > ul,
+li > ol {
+	margin-top: 0.5rem;
+}
+
+/* ---------------------------------------------
+   Links / focus
+---------------------------------------------- */
 a {
 	color: var(--accent);
+	text-decoration: underline;
+	text-decoration-thickness: 1.5px;
+	text-underline-offset: 0.18em;
+	text-decoration-color: rgba(35, 55, 255, 0.35);
+	transition: color 140ms ease, text-decoration-color 140ms ease, background-color 140ms ease;
 }
 a:hover {
-	color: var(--accent);
+	color: var(--accent-dark);
+	text-decoration-color: rgba(0, 13, 138, 0.55);
 }
-p {
-	margin-bottom: 1em;
+
+:focus-visible {
+	outline: 3px solid rgba(var(--ring), var(--ring-alpha));
+	outline-offset: 2px;
 }
-.prose p {
-	margin-bottom: 2em;
+
+/* Round “boxy” elements on focus (avoid rounding inline links globally) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+	border-radius: 8px;
 }
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
+
+/* ---------------------------------------------
+   Media
+---------------------------------------------- */
+img,
+video {
 	max-width: 100%;
 	height: auto;
-	border-radius: 8px;
+	border-radius: var(--radius-md);
 }
+
+.prose img {
+	box-shadow: var(--shadow-sm);
+}
+
+figure {
+	margin: 1.8rem 0;
+}
+figcaption {
+	margin-top: 0.6rem;
+	font-size: 0.95rem;
+	color: rgba(var(--text-muted), 1);
+}
+
+/* ---------------------------------------------
+   Tables
+---------------------------------------------- */
+
+/* Optional wrapper you can use in markup:
+   <div class="table-wrap"><table>...</table></div>
+*/
+.table-wrap {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	border-radius: var(--radius-md);
+}
+
+/* Markdown tables inside prose: make resilient on narrow screens */
+.prose table {
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	margin: 1.6rem 0;
+	font-size: 0.98rem;
+
+	overflow: hidden;
+	border: 1px solid rgba(var(--border), 1);
+	border-radius: var(--radius-md);
+	background: rgb(var(--bg));
+	box-shadow: var(--shadow-sm);
+}
+
+th,
+td {
+	padding: 0.75rem 0.85rem;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid rgba(var(--border), 1);
+}
+
+th {
+	font-weight: 700;
+	color: rgb(var(--text-strong));
+	background: rgba(var(--surface-2), 1);
+}
+
+tr:last-child td {
+	border-bottom: none;
+}
+
+/* ---------------------------------------------
+   Code
+---------------------------------------------- */
 code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
+	padding: 0.15em 0.4em;
+	background: rgba(var(--code-bg), 1);
+	border: 1px solid rgba(var(--code-border), 1);
+	border-radius: 7px;
+
+	font-size: 0.95em;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+		monospace;
 }
+
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
+	padding: 1.1rem 1.15rem;
+	border-radius: var(--radius-lg);
+	border: 1px solid rgba(var(--border), 1);
+	background: rgba(var(--surface), 1);
+	overflow-x: auto;
+	box-shadow: var(--shadow-sm);
+	margin: 1.6rem 0;
+
+	-webkit-overflow-scrolling: touch;
 }
+
 pre > code {
 	all: unset;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+		monospace;
+	font-size: 0.95rem;
+	line-height: 1.6;
 }
+
+/* Scrollbar polish */
+pre::-webkit-scrollbar {
+	height: 10px;
+}
+pre::-webkit-scrollbar-thumb {
+	background: rgba(var(--gray), 0.28);
+	border-radius: 999px;
+}
+html[data-theme="dark"] pre::-webkit-scrollbar-thumb {
+	background: rgba(165, 176, 196, 0.22);
+}
+
+/* ---------------------------------------------
+   Blockquotes / rules
+---------------------------------------------- */
 blockquote {
+	margin: 1.6rem 0;
+	padding: 1rem 1.1rem;
 	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
+	background: rgba(var(--surface-2), 1);
+	border-radius: var(--radius-md);
+	color: rgba(var(--text), 1);
 }
+blockquote p:last-child {
+	margin-bottom: 0;
+}
+
 hr {
 	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+	border-top: 1px solid rgba(var(--border), 1);
+	margin: 2rem 0;
 }
+
+/* ---------------------------------------------
+   Forms
+---------------------------------------------- */
+textarea,
+input,
+select {
+	width: 100%;
+	font-size: 16px;
+	padding: 0.65rem 0.75rem;
+	border-radius: var(--radius-sm);
+	border: 1px solid rgba(var(--border), 1);
+	background: rgb(var(--bg));
+	color: rgb(var(--text));
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+	outline: 3px solid rgba(var(--ring), 0.25);
+	outline-offset: 2px;
+}
+
+/* ---------------------------------------------
+   Heading anchor links (rehype-autolink-headings)
+---------------------------------------------- */
+.prose :where(h2, h3, h4, h5, h6) {
+	position: relative;
+}
+
+/* Only target the plugin’s generated anchor wrapper */
+.prose .heading-anchor-link {
+	text-decoration: none;
+	color: inherit;
+}
+
+.prose .heading-anchor {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	margin-left: 0.5rem;
+	width: 1.2em;
+	height: 1.2em;
+
+	border-radius: 8px;
+	border: 1px solid rgba(var(--border), 1);
+	background: rgba(var(--surface-2), 1);
+
+	color: rgba(var(--text-muted), 1);
+	font-size: 0.85em;
+	line-height: 1;
+
+	opacity: 0;
+	transform: translateY(-1px);
+	transition: opacity 120ms ease, background 120ms ease, color 120ms ease;
+}
+
+.prose :where(h2, h3, h4, h5, h6):hover .heading-anchor,
+.prose :where(h2, h3, h4, h5, h6):focus-within .heading-anchor {
+	opacity: 1;
+}
+
+.prose .heading-anchor:hover {
+	background: rgba(var(--gray-light), 0.35);
+	color: rgb(var(--text-strong));
+}
+
+/* ---------------------------------------------
+   Responsive
+---------------------------------------------- */
 @media (max-width: 720px) {
-	body {
-		font-size: 18px;
+	:root {
+		--base-font: 17px;
+		--content-pad: 1rem;
+		--header-offset: 96px; /* header often wraps more on mobile */
 	}
+
 	main {
-		padding: 1em;
+		padding: 1.75rem var(--content-pad);
+	}
+
+	table {
+		font-size: 0.95rem;
 	}
 }
 
+/* ---------------------------------------------
+   Screen-reader only
+---------------------------------------------- */
 .sr-only {
 	border: 0;
 	padding: 0;
@@ -144,12 +523,8 @@ hr {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
 	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
 	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }

@@ -97,7 +97,7 @@ Highlight visually and explain in writing.
 
 ## 5. Analysis
 
-This is where professionalism becomes evident. Do not describe — interpret.
+This is where professionalism becomes evident. Do not describe, interpret.
 
 Explain:
 - Whether the activity represents expected behavior or an anomaly
@@ -140,29 +140,19 @@ Below is an example of what proper documentation looks like.
 ---
 
 ![Firewall Log Viewer Showing Denied SSH Connections](/images/firewall-screenshot.png)
-
----
-
 ## Figure 1: Firewall Log Showing Repeated Denied SSH Attempts
 
 ### Context and Purpose
-
 This log excerpt shows repeated inbound SSH connection attempts that were successfully blocked by the firewall. The objective is to validate that perimeter controls are functioning correctly and preventing unauthorized remote access.
 
----
-
 ### Methodology
-
 1. Accessed the firewall log viewer interface.
 2. Navigated to the denied connections summary.
 3. Reviewed flagged IP entries.
 4. Identified repeated attempts targeting Port 22.
 5. Verified timestamps and action results.
 
----
-
 ### Observations
-
 - **Source IP:** 185.123.45.67  
 - **Destination Port:** 22 (SSH)  
 - **Action:** Deny  
@@ -174,50 +164,35 @@ This log excerpt shows repeated inbound SSH connection attempts that were succes
 
 The 14–15 second interval between attempts suggests automated credential testing rather than manual login attempts.
 
----
-
 ### Analysis
-
 The repeated targeting of Port 22 within short intervals is consistent with automated brute-force behavior.
 
 The firewall successfully denied all attempts, indicating:
-
 - Proper rule configuration  
 - Active enforcement  
 - No successful SSH session establishment  
 
 However, repeated attempts from a single source IP suggest the need for layered controls beyond simple blocking.
 
-Blocking is effective.
-
-Defense-in-depth is stronger.
-
----
+Blocking is effective. Defense-in-depth is stronger.
 
 ### Recommendations
-
 1. Disable password-based SSH authentication.
 2. Enforce key-based authentication.
 3. Implement rate limiting for SSH connections.
 4. Restrict SSH access to specific management IP ranges.
 5. Enable alerting for repeated failed login attempts.
 
----
-
 ### Technical Summary
-
 - Log Type: Denied Connections Summary  
 - Service Targeted: SSH (Port 22)  
 - Event Count: 3  
 - Attack Window: 2025-01-19 14:32:01–14:32:30  
 - Source Region: Netherlands  
 
----
-
 # What Professional Reporting Looks Like
 
 A properly documented screenshot should demonstrate:
-
 - Evidence collection  
 - Analytical reasoning  
 - Control validation  
