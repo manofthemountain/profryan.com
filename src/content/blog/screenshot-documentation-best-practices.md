@@ -11,7 +11,7 @@ But a screenshot without explanation is not evidence.
 
 It is a visual artifact with no analytical value.
 
-Professional cybersecurity documentation requires structure, context, and interpretation. Whether you are conducting a vulnerability assessment, reviewing logs, analyzing firewall activity, or completing a lab assignment, your screenshots must function as **defensible technical artifacts**.
+Professional cybersecurity documentation requires structure, context, and interpretation. Whether you are conducting a vulnerability assessment, reviewing logs, analyzing firewall activity, or completing a lab assignment, your screenshots must function as defensible technical artifacts.
 
 This article outlines the professional standard I expect in technical reporting.
 
@@ -20,7 +20,6 @@ This article outlines the professional standard I expect in technical reporting.
 # The Problem: Screenshots Without Analysis
 
 Common issues in student and junior analyst reports:
-
 - Images inserted without captions  
 - No explanation of what we are seeing  
 - No description of how the result was obtained  
@@ -56,7 +55,6 @@ The title should state what the image demonstrates — not simply “Firewall Sc
 ## 2. Context and Purpose
 
 Explain:
-
 - Why this screenshot is included  
 - What event, configuration, or control it represents  
 - How it supports the objective of the assignment or investigation  
@@ -70,7 +68,6 @@ This section tells the reader *why the image matters* before they examine it.
 Document how the screenshot was generated.
 
 Include:
-
 - Tool name and version  
 - Navigation path  
 - Filters applied  
@@ -86,7 +83,6 @@ Professional reporting must be reproducible. If another analyst cannot replicate
 Do not assume the reader will identify critical elements.
 
 Explicitly call out:
-
 - Source and destination IP addresses  
 - Ports  
 - Protocols  
@@ -101,13 +97,10 @@ Highlight visually and explain in writing.
 
 ## 5. Analysis
 
-This is where professionalism becomes evident.
-
-Do not describe — interpret.
+This is where professionalism becomes evident. Do not describe — interpret.
 
 Explain:
-
-- Whether the activity represents expected behavior or an anomaly  
+- Whether the activity represents expected behavior or an anomaly
 - Why the pattern is significant  
 - What it confirms about security controls  
 - What risks remain  
@@ -119,7 +112,6 @@ Screenshots support analysis. They do not replace it.
 ## 6. Technical Details
 
 Always include:
-
 - Tool name  
 - Version number  
 - Log type or module  
@@ -132,7 +124,6 @@ Precision builds credibility.
 ## 7. Redaction and Professional Presentation
 
 Before submitting:
-
 - Remove unnecessary desktop clutter  
 - Crop to relevant sections  
 - Redact sensitive information  
