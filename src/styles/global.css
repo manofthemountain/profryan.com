@@ -42,9 +42,9 @@
 	--radius-lg: 16px;
 
 	/* Layout */
-	--content-max: 760px;
+	--content-max: 1000px;
 	--content-pad: 1.25rem;
-	--prose-max: 72ch;
+	--prose-max: 82ch;
 
 	/* Type scale */
 	--base-font: 18px;
@@ -527,4 +527,153 @@ select:focus {
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
 	white-space: nowrap;
+}
+/* ---------------------------------------------
+   Government / NIST-style assessment excerpt
+---------------------------------------------- */
+
+.gov-report {
+  margin: 3rem 0;
+  border: 1px solid rgba(var(--border), 1);
+  background: rgba(var(--bg), 1);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.gov-report__banner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(var(--surface-2), 1);
+  border-bottom: 1px solid rgba(var(--border), 1);
+}
+
+.gov-report__label {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: rgba(var(--text-muted), 1);
+  margin-bottom: 0.35rem;
+}
+
+.gov-report__title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: rgb(var(--text-strong));
+  line-height: 1.25;
+}
+
+.gov-report__meta {
+  font-size: 0.85rem;
+  color: rgba(var(--text-muted), 1);
+  display: grid;
+  gap: 0.25rem;
+  text-align: right;
+}
+
+.gov-report__meta span {
+  font-weight: 700;
+  color: rgb(var(--text-strong));
+  margin-right: 0.35rem;
+}
+
+.gov-report__section {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(var(--border), 1);
+}
+
+.gov-report__section:last-child {
+  border-bottom: none;
+}
+
+.gov-report__section h3 {
+  margin: 0 0 0.6rem 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.gov-report__figure {
+  margin: 0.9rem 0 0.6rem 0;
+  border: 1px solid rgba(var(--border), 1);
+  border-radius: var(--radius-sm);
+  background: rgba(var(--surface), 1);
+  padding: 0.85rem;
+}
+
+.gov-report__figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+.gov-report__figure figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.85rem;
+  color: rgba(var(--text-muted), 1);
+}
+
+.gov-report__record pre {
+  margin: 0.75rem 0 0 0;
+  padding: 0.9rem 1rem;
+  background: rgba(var(--surface-2), 1);
+  border: 1px solid rgba(var(--border), 1);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+}
+
+.gov-report__record code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9rem;
+}
+
+.gov-report__finding {
+  border: 1px solid rgba(var(--border), 1);
+  border-radius: var(--radius-sm);
+  background: rgba(var(--surface), 1);
+  padding: 1rem;
+}
+
+.gov-report__finding-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.gov-report__finding-id {
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.gov-report__severity {
+  font-size: 0.8rem;
+  font-weight: 900;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--border), 1);
+  background: rgba(var(--surface-2), 1);
+  color: rgba(var(--text-muted), 1);
+}
+
+/* Severity variants */
+.gov-report__severity--low { }
+.gov-report__severity--moderate { }
+.gov-report__severity--high { }
+
+@media (max-width: 860px) {
+  .gov-report__banner {
+    grid-template-columns: 1fr;
+  }
+  .gov-report__meta {
+    text-align: left;
+  }
 }

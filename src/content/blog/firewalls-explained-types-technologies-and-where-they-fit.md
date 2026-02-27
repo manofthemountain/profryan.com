@@ -1,8 +1,15 @@
 ---
-title: 'Firewalls Explained: Types, Technologies, and Where They Fit'
-description: 'A practical breakdown of firewall types, deployment models, and their role in modern defense-in-depth architectures.'
-pubDate: 'Jan 29 2026'
-heroImage: '../../assets/brickwall.jpg'
+title: "Firewalls Explained: Types, Technologies, and Where They Fit"
+description: "A practical breakdown of firewall types, deployment models, and their role in modern defense-in-depth architectures."
+pubDate: "2026-01-29"
+updatedDate: "2026-01-29"
+heroImage: "/images/blog/firewalls-explained/brickwall.jpg"
+heroImageAlt: "Brick wall texture representing layered firewall controls."
+tags:
+  - Firewalls
+  - Network Security
+  - Defense in Depth
+  - Architecture
 ---
 
 Firewalls are often described as a foundational security control, yet they are also one of the most misunderstood components of modern network defense. At a high level, the idea seems simple: allow legitimate traffic and block malicious activity. In practice, however, organizations face a wide range of firewall types, deployment models, and overlapping capabilities, making selection and implementation far more nuanced than it first appears.
